@@ -1,3 +1,7 @@
+//Name: Jian Acol
+//Date: November 19, 2025
+//Description: Creates a pong game, controlled by the player and one controlled by ai, with a wall obstructing and a speed up/down zones.
+
 package com.pong;
 
 import javax.swing.*;
@@ -76,12 +80,6 @@ public class PongGame extends JPanel implements MouseMotionListener {
     // postcondition: one frame of the game is "played"
     public void gameLogic() {
         //add commands here to make the game play propperly
-        
-        aiPaddle.moveY(ball.getY());
-        userPaddle.moveY(userMouseY);
-
-        ball.moveBall();
-
         if (aiPaddle.isTouching(ball)) {
            ball.reverseX();
         }
@@ -98,13 +96,26 @@ public class PongGame extends JPanel implements MouseMotionListener {
             ball.reverseY();
         }
         if (speedUp.isTouching(ball)) {
-            ball.setChangeX(ball.getChangeX()+2);
-            ball.setChangeY(ball.getChangeY()+1);
+            if(ball.getChangeX()>0) {
+                ball.setChangeX(ball.getChangeX()+2);
+            }  else {
+                ball.setChangeX(ball.getChangeX()-2);
+            }
         }
-        if (speedUp.isTouching(ball)) {
-            ball.setChangeX(ball.getChangeX()-2);
-            ball.setChangeY(ball.getChangeY()-1);
+        if (slowDown.isTouching(ball)) {
+            if(ball.getChangeX()>0) {
+                ball.setChangeX(ball.getChangeX()-1);
+            } else {
+                ball.setChangeX(ball.getChangeX()+1);
+            }
+            
         }
+        aiPaddle.moveY(ball.getY());
+        userPaddle.moveY(userMouseY);
+
+        ball.moveBall();
+
+        
 
         pointScored();
 
